@@ -71,7 +71,7 @@ Brainrot Tweet:
     return (
         <div>
             <div className="text-3xl font-bold pl-10 py-5 text-purple-600 flex items-center">
-                <img src="../../public/skibidiIcon.png" alt="Brainrot Icon" className="size-12" />
+                <img src="/skibidiIcon.png" alt="Brainrot Icon" className="size-12" />
                 Brainrot Tweets
             </div>
 

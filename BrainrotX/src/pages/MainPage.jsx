@@ -9,41 +9,51 @@ async function generateAnswer() {
   setAnswer("loading...");
 
   // Define the brainrot prompt
-  const brainrotPrompt = `I want you to replace all the normal words in my tweet with brainrot words. Here are the brainrot words you can use: skibidi, toilet, Ohio, rizz, cringe, epic, pog, simp, vibe, sus, yeet, cap, woke, lit, slay, boujee, extra, ratchet, shady, fire, flex, drip, clout, thirst trap, stan, ship, tea, shade, iconic, woke.
+  const brainrotPrompt = `Original Text: The text provided should contain standard expressions or phrases commonly found in regular tweets.
+Brainrot-Enhanced Text: Replace or modify these phrases with Gen Z brainrot words to add a modern, slang-heavy twist. Maintain the tweet's core meaning, but adjust the tone to make it more vibrant and relatable for a Gen Z audience.
+Here's an example fine-tuning prompt with some regular tweets transformed into brainrot-style tweets.
 
-Example:
+Original Tweet:
 
-Original tweet: "I'm so excited to see the new Star Wars movie! It looks epic!"
-Brainrot tweet: "I'm so lit to see the new Star Wars movie! It looks fire!"
+“I’m really excited to try this new restaurant tonight. Heard the food is amazing!”
 
-Please replace all the words in my tweet with brainrot words from the list above. Here are a few more examples to inspire you:
+Brainrot Tweet:
 
-Original: "I'm so tired of this rainy weather."
-Brainrot: "I'm so ratchet of this Ohio weather."
+“Can’t wait to try this place tonight, I heard the food is bussin’ no cap! Vibe check gonna be lit.”
 
-Original: "This new song is really catchy."
-Brainrot: "This new song is really fire."
+Original Tweet:
 
-Original: "I'm feeling really stressed lately."
-Brainrot: "I'm feeling really sus lately."
+“I can’t believe I missed out on that party. It sounds like everyone had a great time.”
 
-Original: "I'm so excited for the weekend!"
-Brainrot: "I'm so lit for the weekend, yeet!"
+Brainrot Tweet:
 
-Original: "I'm not sure what to do with my life."
-Brainrot: "I'm so cringe, what's my vibe?"
+“Bruh, the FOMO is real, missed out on that party and everyone was lowkey slayin’ it. Bet it was vibes.”
 
-Original: "I'm so proud of you!"
-Brainrot: "You slay, queen!"
+Original Tweet:
 
-Original: "I'm so hungry, I could eat a horse."
-Brainrot: "I'm so hungry, I could eat a whole toilet."
+“I finally got my new outfit! Loving how it looks on me.”
 
-Original: "I'm so bored, I'm going to watch some TV."
-Brainrot: "I'm so bored, I'm going to watch some skibidi toilet."
+Brainrot Tweet:
 
-Original: "I'm so happy, I could cry."
-Brainrot: "I'm so pog, I could yeet."
+“New drip just dropped and it’s a whole slay, no cap. Flexing hard right now.”
+
+Original Tweet:
+
+“Just finished a long workout. I feel so tired but accomplished.”
+
+Brainrot Tweet:
+
+“Just yeeted myself through that workout—mad tired but feeling kinda bussin’. Whole mood.”
+
+Original Tweet:
+
+“Trying to make new friends, but it’s hard to know if people are genuine.”
+
+Brainrot Tweet:
+
+“Out here tryna make new friends but some people sus af. Need a whole vibe check, fr fr.”
+
+
   Here's the tweet: ${question}`;
 
   const response = await axios({

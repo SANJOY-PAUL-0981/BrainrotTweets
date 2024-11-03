@@ -2,14 +2,21 @@ import axios from "axios";
 import { div } from "framer-motion/client";
 import { useState } from "react";
 
+safetySettings: [
+    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
+]
+
 function MainPage() {
     const [question, setQuestion] = useState("");
     const [answer, setAnswer] = useState("");
-async function generateAnswer() {
-  setAnswer("loading...");
+    async function generateAnswer() {
+        setAnswer("loading...");
 
-  //prompt
-  const brainrotPrompt = `Original Text: The text provided should contain standard expressions or phrases commonly found in regular tweets.
+        //prompt
+        const brainrotPrompt = `Original Text: The text provided should contain standard expressions or phrases commonly found in regular tweets.
 Brainrot-Enhanced Text: Replace or modify these phrases with Gen Z brainrot words to add a modern, slang-heavy twist. Maintain the tweet's core meaning, but adjust the tone to make it more vibrant and relatable for a Gen Z audience.
 Here's an example fine-tuning prompt with some regular tweets transformed into brainrot-style tweets.
 
@@ -56,18 +63,18 @@ Brainrot Tweet:
 
   Here's the tweet: ${question}`;
 
-  const response = await axios({
-    url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyBk5ceq9XMw1sWQn3HtAJGaNNAjCGfHQ1Y",
-    method: "post",
-    data: {
-      contents: [
-        { parts: [{ text: brainrotPrompt }] }
-      ]
-    }
-  });
+        const response = await axios({
+            url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyBk5ceq9XMw1sWQn3HtAJGaNNAjCGfHQ1Y",
+            method: "post",
+            data: {
+                contents: [
+                    { parts: [{ text: brainrotPrompt }] }
+                ]
+            }
+        });
 
-  setAnswer(response['data']['candidates'][0]['content']['parts'][0]['text']);
-}
+        setAnswer(response['data']['candidates'][0]['content']['parts'][0]['text']);
+    }
     return (
         <div>
             <div className="text-3xl font-bold pl-10 py-5 text-purple-600 flex items-center">
@@ -78,17 +85,27 @@ Brainrot Tweet:
             <div className="flex flex-col gap-3 justify-center items-center text-white font-fontPop pb-10">
                 <p className="text-2xl font-semibold">Paste Your Tweet here</p>
                 <textarea
-                value={question} onChange={(e) => setQuestion(e.target.value)}
-                className="border border-[#a2a2a2] h-32 w-[35vw] rounded-lg bg-transparent p-2">
+                    value={question} onChange={(e) => setQuestion(e.target.value)}
+                    className="border border-[#a2a2a2] h-32 w-[35vw] rounded-lg bg-transparent p-2">
                 </textarea>
                 <button onClick={generateAnswer} className="bg-purple-600 font-semibold p-2 text-center rounded-md">
                     Response
                 </button>
             </div>
 
-            <p className="text-white text-center">
-                {answer}
-            </p>
+            {/* Result */}
+            <div className="flex justify-center">
+                <div className="bg-white/5 p-5 w-[40%]">
+                    <p className="text-white text-center">
+                        {answer}
+                    </p>
+                </div>
+            </div>
+
+            {/* Footer */}
+            <div className="text-white flex justify-center items-end">
+                <pre>Made by <a href="https://sanjoypaul.vercel.app/" target="_blank" className="underline">Sanjoy</a> </pre>
+            </div>
         </div>
     )
 }

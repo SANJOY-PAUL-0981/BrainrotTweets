@@ -12,9 +12,10 @@ safetySettings: [
 function MainPage() {
     const [question, setQuestion] = useState("");
     const [answer, setAnswer] = useState("");
+
+
     async function generateAnswer() {
         setAnswer("loading...");
-
         //prompt
         const brainrotPrompt = `Original Text: The text provided should contain standard expressions or phrases commonly found in regular tweets.
 Brainrot-Enhanced Text: Replace or modify these phrases with Gen Z brainrot words to add a modern, slang-heavy twist. Maintain the tweet's core meaning, but adjust the tone to make it more vibrant and relatable for a Gen Z audience.

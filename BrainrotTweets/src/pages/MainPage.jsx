@@ -136,6 +136,7 @@ function MainPage() {
         safetySettings: safetySettings,
     });
 
+    {/*component code*/}
     return (
         <div className="flex flex-col h-[100vh] justify-between">
 

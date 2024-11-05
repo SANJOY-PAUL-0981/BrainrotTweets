@@ -5,8 +5,10 @@ import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/ge
 function MainPage() {
     const [question, setQuestion] = useState("");
     const [answer, setAnswer] = useState("");
-    const genAI = new GoogleGenerativeAI('AIzaSyBk5ceq9XMw1sWQn3HtAJGaNNAjCGfHQ1Y');
+    const [showAnswer, setShowAnswer] = useState(false); // conditional rendering
+    const genAI = new GoogleGenerativeAI('AIzaSyBk5ceq9XMw1sWQn3HtAJGaNNAjCGfHQ1Y'); // API key init
 
+    {/*fine-tune prompt*/}
     const prompt = `Original Text: The text provided should contain standard expressions or phrases commonly found in regular tweets.
     Brainrot-Enhanced Text: Replace or modify these phrases with Gen Z brainrot words to add a modern, slang-heavy twist. Maintain the tweet's core meaning, but adjust the tone to make it more vibrant and relatable for a Gen Z audience.
     Here's an example fine-tuning prompt with some regular tweets transformed into brainrot-style tweets.
@@ -100,12 +102,15 @@ function MainPage() {
 
     Here's the tweet: ${question}`;
 
+    {/*generate answer function*/}
     async function generateAnswer() {
-        setAnswer("Cooking...")
+        setAnswer("Cooking...");
+        setShowAnswer(true); // Show response box on button click
         const brainrot = await model.generateContent(prompt);
-        setAnswer( brainrot.response.text());
+        setAnswer(brainrot.response.text());
     }
 
+    {/*safety setting initilization*/}
     const safetySettings = [
         {
             category: HarmCategory.HARM_CATEGORY_HARASSMENT,
@@ -125,38 +130,51 @@ function MainPage() {
         },
     ];
 
+    {/*model initilization*/}
     const model = genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
-        safetySettings:safetySettings,
+        safetySettings: safetySettings,
     });
 
     return (
-        <div>
-            <div className="text-3xl font-bold pl-10 py-5 text-purple-600 flex items-center">
+        <div className="flex flex-col h-[100vh] justify-between">
+
+            {/*navbar*/}
+            <div className="text-3xl font-bold pl-10 py-5 text-sky-400 flex items-center">
                 <img src="/skibidiIcon.png" alt="Brainrot Icon" className="size-12" />
                 Brainrot Tweets
             </div>
 
-            <div className="flex flex-col gap-3 justify-center items-center text-white font-fontPop pb-10">
-                <p className="text-2xl font-semibold">Paste Your Tweet here</p>
+            {/*input area*/}
+            <div className="flex flex-col gap-5 justify-center items-center text-white font-fontPop pb-10">
+                <p className="text-5xl font-bold flex items-center">Paste Your <pre className="text-6xl font-semibold text-sky-400"> Tweet </pre> here</p>
                 <textarea
-                    value={question} onChange={(e) => setQuestion(e.target.value)}
-                    className="border border-[#a2a2a2] h-32 w-[35vw] rounded-lg bg-transparent p-2">
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+                    className="border border-[#a2a2a2] h-32 w-[40%] rounded-lg bg-transparent p-2">
                 </textarea>
-                <button onClick={generateAnswer} className="bg-purple-600 font-semibold p-2 text-center rounded-md">
+                <button onClick={generateAnswer} className="bg-sky-500 border-[1.65px] border-sky-500 font-semibold p-2 text-center rounded-md hover:bg-black hover:border-sky-400 duration-300">
                     Response
                 </button>
             </div>
 
             {/* Result */}
-            <div className="flex justify-center">
-                <div className="bg-white/5 p-5 w-[40%]">
-                    <p className="text-white text-center">
-                        {answer}
-                    </p>
+            {showAnswer && ( // Conditionally render response box
+                <div className="flex justify-center">
+                    <div className="bg-white/5 p-5 w-[40%]">
+                        <p className="text-white text-center">
+                            {answer}
+                        </p>
+                    </div>
                 </div>
-            </div>
+            )}
+
+            {/*footer*/}
+            < div className="text-white flex justify-center items-end p-3" >
+                <pre>Made by <a href="https://sanjoypaul.vercel.app/" target="_blank" className="underline text-sky-400">Sanjoy</a> </pre>
+            </div >
         </div>
-    )
+    );
 }
+
 export default MainPage;

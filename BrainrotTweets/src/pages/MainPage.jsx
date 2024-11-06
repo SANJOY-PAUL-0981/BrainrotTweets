@@ -137,7 +137,7 @@ function MainPage() {
         safetySettings: safetySettings,
     });
 
-    {/*Handle Copy*/}
+    {/*Handle Copy*/ }
     const handleCopyToClipboard = () => {
         const textToCopy = answer;
         navigator.clipboard
@@ -196,7 +196,7 @@ function MainPage() {
                         <div className="flex flex-row-reverse">
                             <div></div>
                             <button onClick={handleCopyToClipboard}>
-                            <i class="fa-regular fa-clipboard text-white/75 font-xl"></i>
+                                <i class="fa-regular fa-clipboard text-white/75 font-xl"></i>
                             </button>
                         </div>
                     </div>

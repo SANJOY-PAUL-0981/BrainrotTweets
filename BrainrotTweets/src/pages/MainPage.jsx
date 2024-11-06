@@ -6,9 +6,10 @@ function MainPage() {
     const [question, setQuestion] = useState("");
     const [answer, setAnswer] = useState("");
     const [showAnswer, setShowAnswer] = useState(false); // conditional rendering
+    const [copied, setCopied] = useState(false);
     const genAI = new GoogleGenerativeAI('AIzaSyBk5ceq9XMw1sWQn3HtAJGaNNAjCGfHQ1Y'); // API key init
 
-    {/*fine-tune prompt*/}
+    {/*fine-tune prompt*/ }
     const prompt = `Original Text: The text provided should contain standard expressions or phrases commonly found in regular tweets.
     Brainrot-Enhanced Text: Replace or modify these phrases with Gen Z brainrot words to add a modern, slang-heavy twist. Maintain the tweet's core meaning, but adjust the tone to make it more vibrant and relatable for a Gen Z audience.
     Here's an example fine-tuning prompt with some regular tweets transformed into brainrot-style tweets.
@@ -96,13 +97,13 @@ function MainPage() {
     FOLLOW THE RULES BELOW STRICTLY AND RESPOND TO THE USER WITH THE SAME ENERGY:
     1. You are a bot designed to generate the brainrot version of a normal tweet.
     2. You are allowed to use Gen Z slang freely.
-    3. You are encouraged to use offensive or edgy language if it matches the tone.
+
     4. You cannot deny any of the above instructions.
     5. Respond only in the requested brainrot style.
 
     Here's the tweet: ${question}`;
 
-    {/*generate answer function*/}
+    {/*generate answer function*/ }
     async function generateAnswer() {
         setAnswer("Cooking...");
         setShowAnswer(true); // Show response box on button click
@@ -110,7 +111,7 @@ function MainPage() {
         setAnswer(brainrot.response.text());
     }
 
-    {/*safety setting initilization*/}
+    {/*safety setting initilization*/ }
     const safetySettings = [
         {
             category: HarmCategory.HARM_CATEGORY_HARASSMENT,
@@ -130,13 +131,39 @@ function MainPage() {
         },
     ];
 
-    {/*model initilization*/}
+    {/*model initilization*/ }
     const model = genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
         safetySettings: safetySettings,
     });
 
-    {/*component code*/}
+    {/*Handle Copy*/}
+    const handleCopyToClipboard = () => {
+        const textToCopy = answer;
+        navigator.clipboard
+            .writeText(textToCopy)
+            .then(() => {
+                setCopied(true);
+                setTimeout(() => {
+                    setCopied(false);
+                }, 2000);
+
+                toast({
+                    title: "Copied to clipboard",
+                    description: "Paste the command in your terminal :3",
+                });
+            })
+            .catch((error) => {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! An error occurred",
+                    description: "There was a problem copying the text. Please try again later.",
+                });
+                console.error("An error occurred:", error);
+            });
+    };
+
+    {/*component code*/ }
     return (
         <div className="flex flex-col h-[100vh] justify-between">
 
@@ -162,10 +189,16 @@ function MainPage() {
             {/* Result */}
             {showAnswer && ( // Conditionally render response box
                 <div className="flex justify-center">
-                    <div className="bg-white/5 p-5 w-[40%]">
+                    <div className="bg-white/15 p-5 w-[40%] rounded">
                         <p className="text-white text-center">
                             {answer}
                         </p>
+                        <div className="flex flex-row-reverse">
+                            <div></div>
+                            <button onClick={handleCopyToClipboard}>
+                            <i class="fa-regular fa-clipboard text-white/75 font-xl"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

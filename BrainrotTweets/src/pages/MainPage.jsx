@@ -175,13 +175,14 @@ function MainPage() {
 
             {/*input area*/}
             <div className="flex flex-col gap-5 justify-center items-center text-white font-fontPop pb-10">
-                <p className="text-5xl font-bold flex items-center">Paste Your <pre className="text-6xl font-semibold text-sky-400"> Tweet </pre> here</p>
+                <p className="text-5xl font-bold flex items-center">Get Your <pre className="text-6xl font-semibold text-sky-400"> Brainrot </pre>Tweet</p>
                 <textarea
                     value={question}
                     onChange={(e) => setQuestion(e.target.value)}
-                    className="border border-[#a2a2a2] h-32 w-[40%] rounded-lg bg-transparent p-2">
+                    placeholder="Paste Your Link Here"
+                    className="border border-[#a2a2a2] h-14 w-[40%] rounded bg-transparent px-3 pt-[14px]">
                 </textarea>
-                <button onClick={generateAnswer} className="bg-sky-500 border-[1.65px] border-sky-500 font-semibold p-2 text-center rounded-md hover:bg-black hover:border-sky-400 duration-300">
+                <button onClick={generateAnswer} className="bg-sky-500 border-[1.65px] border-sky-500 font-semibold p-2 text-center rounded hover:bg-black hover:border-sky-400 duration-300">
                     Response
                 </button>
             </div>

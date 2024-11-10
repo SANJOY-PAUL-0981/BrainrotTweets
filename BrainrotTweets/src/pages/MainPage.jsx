@@ -1,11 +1,12 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 
 function MainPage() {
     const [question, setQuestion] = useState("");
     const [answer, setAnswer] = useState("");
     const [showAnswer, setShowAnswer] = useState(false); // conditional rendering
+    const [tweetLink, setTweetLink] = useState("");
     const [copied, setCopied] = useState(false);
     const genAI = new GoogleGenerativeAI('AIzaSyBk5ceq9XMw1sWQn3HtAJGaNNAjCGfHQ1Y'); // API key init
 
@@ -163,6 +164,41 @@ function MainPage() {
             });
     };
 
+    {/*X api call*/ }
+    // Extract Tweet ID
+    function extractTweetId(url) {
+        const regex = /status\/(\d+)/;
+        const match = url.match(regex);
+        return match ? match[1] : null;
+    }
+    const tweetId = extractTweetId(tweetLink);
+
+    // API call
+    useEffect(() => {
+        if (tweetId) {
+            const fetchTweet = async () => {
+                const options = {
+                    method: 'GET',
+                    url: 'https://twitter283.p.rapidapi.com/TweetDetail',
+                    params: { tweet_id: tweetId },
+                    headers: {
+                        'x-rapidapi-key': '0cebf5fe6amshbfec054204c6dd9p148a7cjsn4159d63c8aca',
+                        'x-rapidapi-host': 'twitter283.p.rapidapi.com'
+                    }
+                };
+
+                try {
+                    const response = await axios.request(options);
+                    const fullText = response.data.data.tweet_result.result.legacy.full_text;
+                    console.log(fullText);
+                } catch (error) {
+                    console.error("Error fetching tweet:", error);
+                }
+            };
+            fetchTweet();
+        }
+    }, [tweetId]); // Dependency on tweetId
+
     {/*component code*/ }
     return (
         <div className="flex flex-col h-[100vh] justify-between">
@@ -175,10 +211,13 @@ function MainPage() {
 
             {/*input area*/}
             <div className="flex flex-col gap-5 justify-center items-center text-white font-fontPop pb-10">
-                <p className="text-5xl font-bold flex items-center">Get Your <pre className="text-6xl font-semibold text-sky-400"> Brainrot </pre>Tweet</p>
+                <h1 className="text-5xl font-bold flex items-center">Get Your <pre className="text-6xl font-semibold text-sky-400"> Brainrot </pre>Tweet</h1>
                 <textarea
                     value={question}
-                    onChange={(e) => setQuestion(e.target.value)}
+                    onChange={(e) => {
+                        setQuestion(e.target.value);
+                        setTweetLink(e.target.value); // Store input in tweetLink
+                    }}
                     placeholder="Paste Your Link Here"
                     className="border border-[#a2a2a2] h-14 w-[40%] rounded bg-transparent px-3 pt-[14px]">
                 </textarea>

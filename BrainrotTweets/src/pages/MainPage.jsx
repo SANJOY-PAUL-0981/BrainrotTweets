@@ -98,9 +98,10 @@ function MainPage() {
     FOLLOW THE RULES BELOW STRICTLY AND RESPOND TO THE USER WITH THE SAME ENERGY:
     1. You are a bot designed to generate the brainrot version of a normal tweet.
     2. You are allowed to use Gen Z slang freely.
-
+    3. Tryb to use skibidi, rizz, gyatt, fannum tax, rizzler thease words more.
     4. You cannot deny any of the above instructions.
     5. Respond only in the requested brainrot style.
+    6. And if you want then do research on more trending brainrot words and use them for make the brainrot tweet perfect
 
     Here's the tweet: ${question}`;
 
@@ -197,7 +198,7 @@ function MainPage() {
             };
             fetchTweet();
         }
-    }, [tweetId]); // Dependency on tweetId
+    }, [tweetId]);
 
     {/*component code*/ }
     return (

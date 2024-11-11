@@ -5,10 +5,46 @@ import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/ge
 function MainPage() {
     const [question, setQuestion] = useState("");
     const [answer, setAnswer] = useState("");
+    const [tweet, setTweet] = useState("");
     const [showAnswer, setShowAnswer] = useState(false); // conditional rendering
     const [tweetLink, setTweetLink] = useState("");
     const [copied, setCopied] = useState(false);
     const genAI = new GoogleGenerativeAI('AIzaSyBk5ceq9XMw1sWQn3HtAJGaNNAjCGfHQ1Y'); // API key init
+
+    {/*X api call*/ }
+    // Extract Tweet ID
+    function extractTweetId(url) {
+        const regex = /status\/(\d+)/;
+        const match = url.match(regex);
+        return match ? match[1] : null;
+    }
+    const tweetId = extractTweetId(tweetLink);
+
+    // API call
+    useEffect(() => {
+        if (tweetId) {
+            const fetchTweet = async () => {
+                const options = {
+                    method: 'GET',
+                    url: 'https://twitter283.p.rapidapi.com/TweetDetail',
+                    params: { tweet_id: tweetId },
+                    headers: {
+                        'x-rapidapi-key': '0cebf5fe6amshbfec054204c6dd9p148a7cjsn4159d63c8aca',
+                        'x-rapidapi-host': 'twitter283.p.rapidapi.com'
+                    }
+                };
+
+                try {
+                    const response = await axios.request(options);
+                    const fullText = response.data.data.tweet_result.result.legacy.full_text;
+                    setTweet(fullText);
+                } catch (error) {
+                    console.error("Error fetching tweet:", error);
+                }
+            };
+            fetchTweet();
+        }
+    }, [tweetId]);
 
     {/*fine-tune prompt*/ }
     const prompt = `Original Text: The text provided should contain standard expressions or phrases commonly found in regular tweets.
@@ -103,7 +139,7 @@ function MainPage() {
     5. Respond only in the requested brainrot style.
     6. And if you want then do research on more trending brainrot words and use them for make the brainrot tweet perfect
 
-    Here's the tweet: ${question}`;
+    Here's the tweet: ${tweet}`;
 
     {/*generate answer function*/ }
     async function generateAnswer() {
@@ -165,40 +201,7 @@ function MainPage() {
             });
     };
 
-    {/*X api call*/ }
-    // Extract Tweet ID
-    function extractTweetId(url) {
-        const regex = /status\/(\d+)/;
-        const match = url.match(regex);
-        return match ? match[1] : null;
-    }
-    const tweetId = extractTweetId(tweetLink);
-
-    // API call
-    useEffect(() => {
-        if (tweetId) {
-            const fetchTweet = async () => {
-                const options = {
-                    method: 'GET',
-                    url: 'https://twitter283.p.rapidapi.com/TweetDetail',
-                    params: { tweet_id: tweetId },
-                    headers: {
-                        'x-rapidapi-key': '0cebf5fe6amshbfec054204c6dd9p148a7cjsn4159d63c8aca',
-                        'x-rapidapi-host': 'twitter283.p.rapidapi.com'
-                    }
-                };
-
-                try {
-                    const response = await axios.request(options);
-                    const fullText = response.data.data.tweet_result.result.legacy.full_text;
-                    console.log(fullText);
-                } catch (error) {
-                    console.error("Error fetching tweet:", error);
-                }
-            };
-            fetchTweet();
-        }
-    }, [tweetId]);
+    console.log(prompt)
 
     {/*component code*/ }
     return (
@@ -216,8 +219,8 @@ function MainPage() {
                 <textarea
                     value={question}
                     onChange={(e) => {
-                        setQuestion(e.target.value);
-                        setTweetLink(e.target.value); // Store input in tweetLink
+                        setTweetLink(e.target.value);
+                        setQuestion(e.target.value)
                     }}
                     placeholder="Paste Your Link Here"
                     className="border border-[#a2a2a2] h-14 w-[40%] rounded bg-transparent px-3 pt-[14px]">
@@ -237,7 +240,7 @@ function MainPage() {
                         <div className="flex flex-row-reverse">
                             <div></div>
                             <button onClick={handleCopyToClipboard}>
-                                <i class="fa-regular fa-clipboard text-white/75 font-xl"></i>
+                                <i className="fa-regular fa-clipboard text-white/75 font-xl"></i>
                             </button>
                         </div>
                     </div>

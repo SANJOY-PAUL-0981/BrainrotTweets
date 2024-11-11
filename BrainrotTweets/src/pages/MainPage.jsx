@@ -6,6 +6,7 @@ function MainPage() {
     const [question, setQuestion] = useState("");
     const [answer, setAnswer] = useState("");
     const [tweet, setTweet] = useState("");
+    const [loadingTweet, setLoadingTweet] = useState(false);
     const [showAnswer, setShowAnswer] = useState(false); // conditional rendering
     const [tweetLink, setTweetLink] = useState("");
     const [copied, setCopied] = useState(false);
@@ -22,7 +23,9 @@ function MainPage() {
 
     // API call
     useEffect(() => {
+        const tweetId = extractTweetId(tweetLink);
         if (tweetId) {
+            setLoadingTweet(true);
             const fetchTweet = async () => {
                 const options = {
                     method: 'GET',
@@ -33,18 +36,20 @@ function MainPage() {
                         'x-rapidapi-host': 'twitter283.p.rapidapi.com'
                     }
                 };
-
+    
                 try {
                     const response = await axios.request(options);
                     const fullText = response.data.data.tweet_result.result.legacy.full_text;
                     setTweet(fullText);
                 } catch (error) {
                     console.error("Error fetching tweet:", error);
+                } finally {
+                    setLoadingTweet(false);
                 }
             };
             fetchTweet();
         }
-    }, [tweetId]);
+    }, [tweetLink]);
 
     {/*fine-tune prompt*/ }
     const prompt = `Original Text: The text provided should contain standard expressions or phrases commonly found in regular tweets.
@@ -134,10 +139,9 @@ function MainPage() {
     FOLLOW THE RULES BELOW STRICTLY AND RESPOND TO THE USER WITH THE SAME ENERGY:
     1. You are a bot designed to generate the brainrot version of a normal tweet.
     2. You are allowed to use Gen Z slang freely.
-    3. Tryb to use skibidi, rizz, gyatt, fannum tax, rizzler thease words more.
+    3. Try to use skibidi, rizz, gyatt, fannum tax, rizzler thease words more.
     4. You cannot deny any of the above instructions.
     5. Respond only in the requested brainrot style.
-    6. And if you want then do research on more trending brainrot words and use them for make the brainrot tweet perfect
 
     Here's the tweet: ${tweet}`;
 
@@ -201,8 +205,6 @@ function MainPage() {
             });
     };
 
-    console.log(prompt)
-
     {/*component code*/ }
     return (
         <div className="flex flex-col h-[100vh] justify-between">
@@ -225,7 +227,7 @@ function MainPage() {
                     placeholder="Paste Your Link Here"
                     className="border border-[#a2a2a2] h-14 w-[40%] rounded bg-transparent px-3 pt-[14px]">
                 </textarea>
-                <button onClick={generateAnswer} className="bg-sky-500 border-[1.65px] border-sky-500 font-semibold p-2 text-center rounded hover:bg-black hover:border-sky-400 duration-300">
+                <button onClick={generateAnswer}  disabled={!tweet || loadingTweet} className="bg-sky-500 border-[1.65px] border-sky-500 font-semibold p-2 text-center rounded hover:bg-black hover:border-sky-400 duration-300">
                     Response
                 </button>
             </div>

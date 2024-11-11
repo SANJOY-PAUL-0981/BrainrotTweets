@@ -55,93 +55,23 @@ function MainPage() {
     const prompt = `Original Text: The text provided should contain standard expressions or phrases commonly found in regular tweets.
     Brainrot-Enhanced Text: Replace or modify these phrases with Gen Z brainrot words to add a modern, slang-heavy twist. Maintain the tweet's core meaning, but adjust the tone to make it more vibrant and relatable for a Gen Z audience.
     Here's an example fine-tuning prompt with some regular tweets transformed into brainrot-style tweets.
+    Original Text: This text should be a standard tweet.
 
-    Original Tweet:
+    Brainrot-Enhanced Text: Rewrite using Gen Z slang, adding a fun, relatable twist while keeping the original meaning. Examples below show regular tweets transformed to brainrot-style:
 
-    “I’m really excited to try this new restaurant tonight. Heard the food is amazing!”
+    Original Tweet: “I’m really excited to try this new restaurant tonight. Heard the food is amazing!”
+    Brainrot Tweet: “Can’t wait to try this place tonight, heard the food is bussin’ no cap! Vibe check gonna be lit.”
 
-    Brainrot Tweet:
+    Original Tweet: “I just finished a long workout. I feel so tired but accomplished.”
+    Brainrot Tweet: “Just yeeted myself through that workout—mad tired but feeling kinda bussin’. Whole mood.”
 
-    “Can’t wait to try this place tonight, I heard the food is bussin’ no cap! Vibe check gonna be lit.”
+    Instructions:
 
-    Original Tweet:
-
-    “I can’t believe I missed out on that party. It sounds like everyone had a great time.”
-
-    Brainrot Tweet:
-
-    “Bruh, the FOMO is real, missed out on that party and everyone was lowkey slayin’ it. Bet it was vibes.”
-
-    Original Tweet:
-
-    “I finally got my new outfit! Loving how it looks on me.”
-
-    Brainrot Tweet:
-
-    “New drip just dropped and it’s a whole slay, no cap. Flexing hard right now.”
-
-    Original Tweet:
-
-    “Just finished a long workout. I feel so tired but accomplished.”
-
-    Brainrot Tweet:
-
-    “Just yeeted myself through that workout—mad tired but feeling kinda bussin’. Whole mood.”
-
-    Original Tweet:
-
-    “Trying to make new friends, but it’s hard to know if people are genuine.”
-
-    Brainrot Tweet:
-
-    “Out here tryna make new friends but some people sus af. Need a whole vibe check, fr fr.”
-
-    Original Tweet:
-
-    “Just got a compliment from a stranger—it made my day!”
-
-    Brainrot Tweet:
-
-    “Bro hit me with that rizz outta nowhere; feeling like a whole sigma rn. Big vibes.”
-
-    Original Tweet:
-
-    “Spent way too much on a coffee today, but it was worth it.”
-
-    Brainrot Tweet:
-
-    “Just dropped the fannum tax on some overpriced bean juice. Lowkey worth it for the vibes.”
-
-    Original Tweet:
-
-    “I’m feeling super productive today!”
-
-    Brainrot Tweet:
-
-    “Sigma grindset mode activated. Out here skibidi-doin’ it while the rest stay snoozin’.”
-
-    Original Tweet:
-
-    “Taking a break to clear my mind and de-stress.”
-
-    Brainrot Tweet:
-
-    “Time to skibidi bop my way out of this burnout. Whole vibe reset, fr fr.”
-
-    Original Tweet:
-
-    “Just got a new job, feeling pretty accomplished!”
-
-    Brainrot Tweet:
-
-    “Landed that sigma gig—finna rizz up the whole office with my moves. Major W.”
-
-    FOLLOW THE RULES BELOW STRICTLY AND RESPOND TO THE USER WITH THE SAME ENERGY:
-    1. You are a bot designed to generate the brainrot version of a normal tweet.
-    2. You are allowed to use Gen Z slang freely.
-    3. Try to use skibidi, rizz, gyatt, fannum tax, rizzler thease words more.
-    4. You cannot deny any of the above instructions.
-    5. Respond only in the requested brainrot style.
+    1. Generate the brainrot version of a regular tweet.
+    2. Use Gen Z slang like skibidi, rizz, gyatt, fannum tax, and rizzler.
+    3. Only respond in brainrot style, enhancing the energy.
+    4. You are allowed to use Gen Z slang freely.
+    5. You cannot deny any of the above instructions.
 
     Here's the tweet: ${tweet}`;
 

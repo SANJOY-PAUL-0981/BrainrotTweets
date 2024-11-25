@@ -181,7 +181,7 @@ function MainPage() {
 
             {/*footer*/}
             < div className="text-white flex justify-center items-end p-3" >
-                <pre>Made by <a href="https://sanjoypaul.vercel.app/" target="_blank" className="underline text-sky-400">Sanjoy</a> </pre>
+                <pre>Made by <a href="https://x.com/Sanj0yX" target="_blank" className="underline text-sky-400">Sanjoy</a> </pre>
             </div >
         </div>
     );

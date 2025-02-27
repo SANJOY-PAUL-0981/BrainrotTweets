@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 function MainPage() {
     const [question, setQuestion] = useState("");
@@ -10,7 +10,7 @@ function MainPage() {
     const [showAnswer, setShowAnswer] = useState(false); // conditional rendering
     const [tweetLink, setTweetLink] = useState("");
     const [copied, setCopied] = useState(false);
-    const genAI = new GoogleGenerativeAI('AIzaSyBk5ceq9XMw1sWQn3HtAJGaNNAjCGfHQ1Y'); // API key init
+    const genAI = new GoogleGenerativeAI('YOUR_GEMINI_API'); // API key init
 
     {/*X api call*/ }
     // Extract Tweet ID
@@ -83,30 +83,9 @@ function MainPage() {
         setAnswer(brainrot.response.text());
     }
 
-    {/*safety setting initilization*/ }
-    const safetySettings = [
-        {
-            category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-            threshold: HarmBlockThreshold.BLOCK_NONE,
-        },
-        {
-            category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-            threshold: HarmBlockThreshold.BLOCK_NONE,
-        },
-        {
-            category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-            threshold: HarmBlockThreshold.BLOCK_NONE,
-        },
-        {
-            category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-            threshold: HarmBlockThreshold.BLOCK_NONE,
-        },
-    ];
-
     {/*model initilization*/ }
     const model = genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
-        safetySettings: safetySettings,
     });
 
     {/*Handle Copy*/ }
